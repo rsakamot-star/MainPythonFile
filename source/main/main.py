@@ -13,6 +13,7 @@ from Bird import *
 import threading
 import numpy as np
 from AI import *
+import PyxelUniversalFont as puf
 
 #print(hoge.main())
 # T. Abu-Zayyad et.al., The Astrophysical Journal Letters, 768:L1 (5pp), 2013 May 1
@@ -267,10 +268,12 @@ class Menu:
     def draw(self):
         pyxel.cls(0)
         if self.state == "main":
-            pyxel.text(80, 30, "COSMIC RAYs", pyxel.frame_count % 16)
+            #pyxel.text(80, 30, "COSMIC RAYs", pyxel.frame_count % 16)
             pyxel.text(80, 80, "START GAME", 7)
             pyxel.text(80, 90, "Particles", 7)
             pyxel.text(80, 100, "CUSTOM", 7)
+            self.app.writer.draw(50, 30, "COSMIC RAYs", 15, pyxel.frame_count % 16)
+            #self.app.writer.draw(50, 120, "aa", 5, 7)
 
             pyxel.blt(self.Ax, self.Ay, 0, 0,112,7,8, 0,0,0.9)
             pyxel.text(145, 5, "vsCPU:", 20)        
@@ -341,6 +344,7 @@ class App:
         pyxel.init(200, 150, fps=60,display_scale=5)   
         pyxel.screen_mode(0)   
         pyxel.cls(0)
+        self.writer = puf.Writer("IPA_PMincho.ttf")
         self.detx = 100
         self.x = random.randint(40, 150)
         self.y = 0
@@ -543,5 +547,4 @@ class App:
                     self.birdtimerFlag = False
                     self.score_pm = "DEFAULT"
                     self.timevector.pop(0)
-            #pyxel.text(30,100,np.__version__,0)
 App()
