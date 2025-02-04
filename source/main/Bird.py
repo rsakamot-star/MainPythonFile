@@ -24,6 +24,7 @@ class bird:
         self.objx = -100
         self.objy = -100
         self.scale = 1
+        self.obj = random.choices([136, 152], weights=[9, 1])[0]
     def update(self):
         if random.random() < 0.1 and self.Flag == True:
             self.hun = Hun(self.x,self.y+8)
@@ -40,12 +41,13 @@ class bird:
             self.x = 200
             self.y = random.uniform(5,20)
             self.scale = random.uniform(1,2)
+            self.obj = random.choices([136, 152], weights=[9, 1])[0]
         if self.Image != 160:
             self.Image += 16
         if self.Image == 160:
             self.Image = -160
     def draw(self):
-        pyxel.blt(self.x, self.y, 0, abs(self.Image), 136, 17, 16, 0,0,self.scale)
+        pyxel.blt(self.x, self.y, 0, abs(self.Image), self.obj, 17, 16, 0,0,self.scale)
         if self.Flag == False:
             if self.char == "STAR":self.hun.star()
             if self.char == "HUN":self.hun.hun()

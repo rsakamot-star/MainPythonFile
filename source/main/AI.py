@@ -2,12 +2,9 @@ import random
 import pyxel
 import pickle
 import requests
-#import micropip
-#import asyncio
-#def install_numpy():
-#await micropip.install("numpy")
 import numpy as np
-#from sklearn.ensemble import RandomForestRegressor
+import io
+
 
 
 class AI_BRAIN:
@@ -20,11 +17,14 @@ class AI_BRAIN:
         self.y = 0
         self.AfterTrain = False
         self.train_OK = False        
-        #try:
-
-        self.filename = "figures/model.sav"
-        self.model = pickle.load(open(self.filename, 'rb'))
-        #self.model = RandomForestRegressor()
+        try:
+            #from sklearn.ensemble import RandomForestRegressor
+            #self.model = RandomForestRegressor()
+            self.filename = "/Users/ryunosukesakamoto/work/Game_dir/PYXEL/InvGame/AImodels/model.sav"
+            self.model = pickle.load(open(self.filename, 'rb'))
+        except:
+            self.url = requests.get("https://raw.githubusercontent.com/rsakamot-star/CRsGAME/main/source/figures/model.sav")
+            self.model = pickle.load(io.BytesIO(self.url.content))
         self.loc = "local"
         #except:
         #    self.LookUpTable = np.load('figures/LookUpTable.npy')
@@ -52,19 +52,16 @@ class AI_BRAIN:
             X = [[self.theta[i],self.posx[i],self.posy[i]] for i in range(len(self.theta))]
             y = self.detx
             self.model.fit(X, y)
+            if self.filename != "/Users/ryunosukesakamoto/work/Game_dir/PYXEL/InvGame/AImodels/model.sav":
+                self.filename = "./model.sav"
             pickle.dump(self.model, open(self.filename, 'ab'))
             #self.model = pickle.load(open(self.filename, 'rb'))
-    def Test(self,theta,x,y,current_x):
-        if self.loc == "local" and len(self.theta) > 0:
+    def Test(self,theta,x,y):
+        if self.loc == "local":
             X = [[theta,x,y]]
             estx = self.model.predict(X)[0]
             if -25 <= estx <= 200:
                 self.y = estx
-        if self.loc == "web":
-            diff = np.abs(self.LookUpTable[:, 0:3] - np.array([theta, x, y]))
-            index_candidates = np.where(np.linalg.norm(diff, axis=1) == np.min(np.linalg.norm(diff, axis=1)))[0]
-            final_index = index_candidates[np.argmin(np.abs(self.LookUpTable[index_candidates, 3] - current_x))]
-            self.y = np.abs(self.LookUpTable[final_index, 2] - current_x)
 
 
 
@@ -133,15 +130,15 @@ class cpu:
         self.i = 0
     def update(self):
         if self.app.ai_brain.train_OK == True:
-            self.app.ai_brain.Test(self.app.theta,self.app.x,self.app.y,self.app.cursorX)
+            self.app.ai_brain.Test(self.app.theta,self.app.x,self.app.y)
             self.x = self.app.ai_brain.y
     def draw(self):
         if self.app.ai_brain.train_OK == True:
+            pyxel.blt(self.x, 110, 1, self.loc[0], self.loc[1], self.loc[2], self.loc[3], 0)
             if self.i < 7:
                 self.i += 0.1
                 pyxel.rect(73, 0.01, 43, self.i, 22)
             else:
-                pyxel.blt(self.x, 110, 1, self.loc[0], self.loc[1], self.loc[2], self.loc[3], 0)
                 pyxel.rect(73, 0.01, 43, 7, 22)
                 pyxel.text(75,1,"CPU:",7)
                 if self.score > self.app.score:

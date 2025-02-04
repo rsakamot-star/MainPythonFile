@@ -465,9 +465,9 @@ class App:
                 if self.ai == "AI":
                     if 120 <= p.y <= 125 and p.x - 30 <= self.cursorX <= p.x and not isinstance(p.p, AS.gamma):
                         self.ai_train_score += 1
-                    if 120 <= p.y <= 125 and p.x - 30 <= self.cursorX -1 <= p.x and not isinstance(p.p, AS.gamma):
+                    if 120 <= p.y <= 125 and p.x - 30 <= self.cursorX -5 <= p.x and not isinstance(p.p, AS.gamma):
                         self.ai_train_score_left += 1
-                    if 120 <= p.y <= 125 and p.x - 30 <= self.cursorX +1 <= p.x and not isinstance(p.p, AS.gamma):
+                    if 120 <= p.y <= 125 and p.x - 30 <= self.cursorX +5 <= p.x and not isinstance(p.p, AS.gamma):
                         self.ai_train_score_right += 1
                 if 120 <= p.y <= 125 and p.x - 30 <= self.cpu.x <= p.x and not isinstance(p.p, AS.gamma) and self.mode == "VSCPU":
                     if not p in self.cpu_particles:
