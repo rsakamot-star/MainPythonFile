@@ -7,10 +7,7 @@ import requests
 #def install_numpy():
 #await micropip.install("numpy")
 import numpy as np
-
-
-
-
+#from sklearn.ensemble import RandomForestRegressor
 
 
 class AI_BRAIN:
@@ -23,17 +20,16 @@ class AI_BRAIN:
         self.y = 0
         self.AfterTrain = False
         self.train_OK = False        
-        try:
-            try:
-                self.filename = "/Users/ryunosukesakamoto/work/Game_dir/PYXEL/InvGame/main/figures/model.sav"
-            except:
-                self.filename = "figures/model.sav"
-            self.model = pickle.load(open(self.filename, 'rb'))
-            self.loc = "local"
-        except:
-            self.LookUpTable = np.load('figures/LookUpTable.npy')
+        #try:
+
+        self.filename = "figures/model.sav"
+        self.model = pickle.load(open(self.filename, 'rb'))
+        #self.model = RandomForestRegressor()
+        self.loc = "local"
+        #except:
+        #    self.LookUpTable = np.load('figures/LookUpTable.npy')
             #print(LookUpTable)
-            self.loc = "web"
+        #    self.loc = "web"
     def Web(self):
         pass
         if self.train_OK == False:
@@ -57,9 +53,9 @@ class AI_BRAIN:
             y = self.detx
             self.model.fit(X, y)
             pickle.dump(self.model, open(self.filename, 'ab'))
-            print("aaa")
+            #self.model = pickle.load(open(self.filename, 'rb'))
     def Test(self,theta,x,y,current_x):
-        if self.loc == "local":
+        if self.loc == "local" and len(self.theta) > 0:
             X = [[theta,x,y]]
             estx = self.model.predict(X)[0]
             if -25 <= estx <= 200:
@@ -95,12 +91,12 @@ class AI_training:
             self.objy.append(self.app.Fly_bird.objy)
     def search(self):
         #self.app.ai_train_move = random.uniform(-30,200)
-        if (110 <= self.app.Fly_bird.objy <= 125 and self.app.Fly_bird.objx -30 <= self.app.cursorX <= self.app.Fly_bird.objx):
-            if 200 - self.app.cursorX >= 100:
-                self.app.cursorX += 3
-            if 200 - self.app.cursorX < 100:
-                self.app.cursorX -= 33
-        elif self.app.ai_train_score_left > self.app.ai_train_score and -25 <= self.app.cursorX <= 200 and self.app.everyscore > 0:
+        #if (110 <= self.app.Fly_bird.objy <= 125 and self.app.Fly_bird.objx -30 <= self.app.cursorX <= self.app.Fly_bird.objx):
+        #    if 200 - self.app.cursorX >= 100:
+        #        self.app.cursorX += 3
+        #    if 200 - self.app.cursorX < 100:
+        #        self.app.cursorX -= 33
+        if self.app.ai_train_score_left > self.app.ai_train_score and -25 <= self.app.cursorX <= 200 and self.app.everyscore > 0:
             self.app.cursorX -= 1    #self.app.ai_train_move_left
         elif self.app.ai_train_score_right > self.app.ai_train_score and -25 <= self.app.cursorX <= 200 and self.app.everyscore > 0:
             self.app.cursorX += 1    #self.app.ai_train_move_right
