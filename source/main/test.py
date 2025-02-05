@@ -10,6 +10,7 @@ from timer import *
 #from VS import VS
 from load_url import *
 from Bird import *
+import threading
 import numpy as np
 from AI import *
 import PyxelUniversalFont as puf
