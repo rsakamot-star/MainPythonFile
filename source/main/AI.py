@@ -6,7 +6,7 @@ import numpy as np
 import io
 
 
-
+#機械学習モデル
 class AI_BRAIN:
     def __init__(self):
         self.theta = []
@@ -64,7 +64,7 @@ class AI_BRAIN:
                 self.y = estx
 
 
-
+#機械学習
 class AI_training:
     def __init__(self,app):
         self.app = app
@@ -118,7 +118,7 @@ class AI_training:
     def UpdateAIBrain(self):
         self.app.ai_brain.DeepLearning(self.theta,self.posx,self.posy,self.detx)
 
-
+#CPU検出器の動き
 class cpu:
     def __init__(self,app):
         #self.detector = 

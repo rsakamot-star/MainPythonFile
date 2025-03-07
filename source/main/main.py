@@ -406,7 +406,7 @@ class App:
                     if  self.IntY == 0 and self.IntX == 0:
                         self.IntX = self.x
                         self.IntY = self.y
-                    k = random.randint(50,100)
+                    k = random.randint(50,80 + int(self.E))
                     self.particle = random.choices([AS.muon(),AS.gamma(),AS.electron()],k=k,weights=[2,1,2])
                     for part in self.particle:
                         self.particles.append(AS.airshowers(self.x,self.y,part,self.theta,self.E))
